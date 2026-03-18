@@ -1,5 +1,5 @@
 # SocialEngineering
-[ This is AI generated - Make sure you run in dev environment and redef all the configurations to your needs ]
+[ Make sure you run in dev environment and redef all the configurations to your needs - I yet don't have a filter on people reporting this as phish or such - so those legit reports and their responses also get flagged - in other words - detection is a bit strict ] 
 
 A multi-layered Zeek package for detecting a coordinated social engineering campaign targeting research institutions. Built from real-world threat intelligence gathered from 120+ phishing emails that used fabricated personas to target 45+ scientists, engineers, and operational staff at a national research laboratory.
 
