@@ -1,0 +1,17 @@
+[package]
+script_dir = scripts
+test_command = cd tests && btest -c btest.cfg
+summary = Multi-layered SE campaign detection with conversation tracking, wave detection, and cluster support
+description = Multi-layered detection policy for a coordinated social engineering
+	campaign using fabricated personas ("Amy Bloom" / "Lillian Briger") to
+	target Lawrence Berkeley National Laboratory personnel. Detection layers
+	include known sender IOCs, subject/body scoring with 20 weighted indicators,
+	structural amplifiers (MIME, entropy, no-links), display name reuse detection,
+	sender spray and campaign wave analysis via SumStats, follow-up escalation,
+	conversation state tracking (CAMPAIGN_SENT/VICTIM_REPLIED/ATTACKER_FOLLOWUP),
+	internal forwarding detection, VIP target escalation, Intel framework
+	integration, structured se_campaign.log, and full cluster support.
+tags = smtp, phishing, social-engineering, notice, email, security, detection, cluster
+depends =
+	zeek >=6.0.0
+version = 2.0.0
