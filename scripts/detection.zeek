@@ -88,7 +88,7 @@ event mime_one_header(c: connection, h: mime_header_rec) &priority=4
                 if ( to_lower(ea3) in learned_bad_senders )
                     {
                     conn_sender_ioc[c$uid] = T;
-                    conn_scores[c$uid] += 10.0;
+                    conn_scores[c$uid] += 5.0;
                     conn_matched[c$uid] += fmt("LEARNED_SENDER:%s", to_lower(ea3));
 
                     NOTICE([$note=KnownSender,
@@ -559,14 +559,24 @@ event smtp_reply(c: connection, is_orig: bool, code: count, cmd: string,
         # Auto-learn sender and subject as runtime IOCs for pivoting.
         # Future emails from this sender or with this subject are
         # immediately flagged without needing a static IOC/pattern.
-        # GUARD: Only learn external senders. Internal users who reply
-        # to campaign emails can trigger CampaignMatch (via subject +
-        # body scoring), but their addresses and reply subjects must
-        # NOT be learned as IOCs — doing so causes cascading false
-        # positives on all subsequent legitimate emails from that user.
+        #
+        # GUARDS (all must pass to learn):
+        #   1. Not internal — internal users are never campaign senders
+        #   2. Freemail sender — the campaign uses disposable freemail
+        #      addresses. Branded-domain senders (mailing lists, SaaS,
+        #      forwarding relays like ops@lists.ren-isac.net) must NOT
+        #      be learned, as doing so causes cascading false positives
+        #      on every subsequent email from that infrastructure address.
+        #   3. Subject is always learned (when sender qualifies) because
+        #      the campaign reuses subjects across disposable senders.
+        #
         # Cluster-aware: updates local state + publishes to proxy.
-        if ( ! is_internal )
-            cluster_add_learned_ioc(sender, subject);
+        if ( ! is_internal && sender != "" )
+            {
+            local learn_domain = get_email_domain(sender);
+            if ( learn_domain in freemail_domains )
+                cluster_add_learned_ioc(sender, subject);
+            }
 
         if ( sender != "" && ! is_internal )
             {
