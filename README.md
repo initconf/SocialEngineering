@@ -1,6 +1,6 @@
 # SocialEngineering
 
-A multi-layered Zeek package for detecting a coordinated social engineering campaign targeting research institutions. Built from real-world threat intelligence gathered from 120+ phishing emails that used fabricated personas to target 45+ scientists, engineers, and operational staff at a national research laboratory.
+A multi-layered Zeek package for detecting a coordinated social engineering campaign targeting research institutions. Built from real-world threat intelligence gathered from 120+ phishing emails that used fabricated personas to target 45+ scientists, engineers, and operational staff at research institution.
 
 The package goes beyond simple IOC matching — it scores email bodies against 20 behavioral indicators extracted from the campaign corpus, tracks detected campaign emails across sessions, detects campaign waves using disposable addresses, tracks full attacker-victim conversation lifecycles, and **alerts in real time when an internal user replies to or forwards a phishing email**.
 
